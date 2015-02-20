@@ -1,0 +1,45 @@
+03-Feb-15 9:31:57 PM	This log contains information about the import schema operation into project 'Yerpe.Database' on computer 'WIN-J8ERTAAHRK7' by user 'graha_000'.
+03-Feb-15 9:31:58 PM	Import of database schema has started.
+03-Feb-15 9:32:22 PM	Gathering logins
+03-Feb-15 9:32:34 PM	Gathering database options
+03-Feb-15 9:32:34 PM	Gathering users
+03-Feb-15 9:32:34 PM	Gathering roles
+03-Feb-15 9:32:34 PM	Gathering application roles
+03-Feb-15 9:32:34 PM	Gathering role memberships
+03-Feb-15 9:32:34 PM	Gathering assemblies
+03-Feb-15 9:32:34 PM	Gathering schemas
+03-Feb-15 9:32:34 PM	Gathering XML schema collections
+03-Feb-15 9:32:34 PM	Gathering user-defined data types
+03-Feb-15 9:32:34 PM	Gathering user-defined types
+03-Feb-15 9:32:34 PM	Gathering table types
+03-Feb-15 9:32:34 PM	Gathering unique keys for table types
+03-Feb-15 9:32:35 PM	Gathering primary keys for table types
+03-Feb-15 9:32:35 PM	Gathering check constraints for table types
+03-Feb-15 9:32:35 PM	Gathering default constraints for table types
+03-Feb-15 9:32:35 PM	Gathering functions
+03-Feb-15 9:32:35 PM	Gathering aggregates
+03-Feb-15 9:32:35 PM	Gathering procedures
+03-Feb-15 9:32:35 PM	Gathering tables
+03-Feb-15 9:32:36 PM	Gathering primary keys
+03-Feb-15 9:32:37 PM	Gathering unique constraints
+03-Feb-15 9:32:37 PM	Gathering foreign keys
+03-Feb-15 9:32:37 PM	Gathering default constraints
+03-Feb-15 9:32:37 PM	Gathering check constraints
+03-Feb-15 9:32:38 PM	Gathering views
+03-Feb-15 9:32:38 PM	Gathering indexes
+03-Feb-15 9:32:38 PM	Gathering statistics
+03-Feb-15 9:32:38 PM	Gathering spatial indexes
+03-Feb-15 9:32:38 PM	Gathering triggers
+03-Feb-15 9:32:38 PM	Gathering ddl triggers
+03-Feb-15 9:32:38 PM	Gathering synonyms
+03-Feb-15 9:32:38 PM	Gathering defaults
+03-Feb-15 9:32:38 PM	Gathering data constraint uddt bindings
+03-Feb-15 9:32:38 PM	Gathering rules
+03-Feb-15 9:32:38 PM	Gathering data constraint uddt bindings
+03-Feb-15 9:32:38 PM	Gathering event notifications
+03-Feb-15 9:32:53 PM	Gathering logins
+03-Feb-15 9:33:05 PM	Scanning project for duplicate elements
+03-Feb-15 9:33:06 PM	Finished duplicate element processing
+03-Feb-15 9:33:07 PM	Finished importing database.
+03-Feb-15 9:33:07 PM	A summary of the import was saved to the following location: c:\users\graha_000\documents\visual studio 2013\Projects\Yerpe\Yerpe.Database\Import Schema Logs\Yerpe.Database_20150203093157.log
+03-Feb-15 9:33:07 PM	Click Finish to continue...
