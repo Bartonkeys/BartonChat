@@ -17,11 +17,13 @@ namespace Yerpe.Data
         public Room()
         {
             this.Messages = new HashSet<Message>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
     
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

@@ -4,52 +4,52 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Yerpe_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Yerpe_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="Email" MaxLength="256" Type="nvarchar" />
-          <Property Name="EmailConfirmed" Nullable="false" Type="bit" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
           <Property Name="SecurityStamp" Type="nvarchar(max)" />
           <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Nullable="false" Type="bit" />
-          <Property Name="TwoFactorEnabled" Nullable="false" Type="bit" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
           <Property Name="LockoutEndDateUtc" Type="datetime" />
-          <Property Name="LockoutEnabled" Nullable="false" Type="bit" />
-          <Property Name="AccessFailedCount" Nullable="false" Type="int" />
-          <Property Name="UserName" Nullable="false" MaxLength="256" Type="nvarchar" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" Type="nvarchar" />
-          <Property Name="Text" Nullable="false" Type="nvarchar(max)" />
-          <Property Name="RoomId" Nullable="false" Type="int" />
-          <Property Name="DateCreated" Nullable="false" Type="datetime" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Room_Id" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="RoomMessage">
+        <EntityType Name="RoomAspNetUser">
           <Key>
             <PropertyRef Name="Room_Id" />
-            <PropertyRef Name="Messages_Id" />
+            <PropertyRef Name="AspNetUsers_Id" />
           </Key>
-          <Property Name="Room_Id" Nullable="false" Type="int" />
-          <Property Name="Messages_Id" Nullable="false" Type="int" />
+          <Property Name="Room_Id" Type="int" Nullable="false" />
+          <Property Name="AspNetUsers_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Rooms">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
-          <Property Name="Name" Nullable="false" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_Messages_AspNetUsers">
-          <End Type="Self.AspNetUsers" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.Messages" Multiplicity="*" Role="Messages" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -59,26 +59,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoomMessage_Message">
-          <End Type="Self.Messages" Multiplicity="1" Role="Messages" />
-          <End Type="Self.RoomMessage" Multiplicity="*" Role="RoomMessage" />
+        <Association Name="FK_RoomAspNetUser_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="RoomAspNetUser" Type="Self.RoomAspNetUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Messages">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="RoomMessage">
-              <PropertyRef Name="Messages_Id" />
+            <Dependent Role="RoomAspNetUser">
+              <PropertyRef Name="AspNetUsers_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoomMessage_Room">
-          <End Type="Self.Rooms" Multiplicity="1" Role="Rooms" />
-          <End Type="Self.RoomMessage" Multiplicity="*" Role="RoomMessage" />
+        <Association Name="FK_RoomAspNetUser_Room">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+          <End Role="RoomAspNetUser" Type="Self.RoomAspNetUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Rooms">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="RoomMessage">
+            <Dependent Role="RoomAspNetUser">
+              <PropertyRef Name="Room_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomMessage">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
               <PropertyRef Name="Room_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -86,93 +98,114 @@
         <EntityContainer Name="Yerpe_dbModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RoomMessage" EntityType="Self.RoomMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomAspNetUser" EntityType="Self.RoomAspNetUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Messages_AspNetUsers" Association="Self.FK_Messages_AspNetUsers">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="Messages" Role="Messages" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomMessage_Message" Association="Self.FK_RoomMessage_Message">
-            <End EntitySet="Messages" Role="Messages" />
-            <End EntitySet="RoomMessage" Role="RoomMessage" />
+          <AssociationSet Name="FK_RoomAspNetUser_AspNetUser" Association="Self.FK_RoomAspNetUser_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="RoomAspNetUser" EntitySet="RoomAspNetUser" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomMessage_Room" Association="Self.FK_RoomMessage_Room">
-            <End EntitySet="Rooms" Role="Rooms" />
-            <End EntitySet="RoomMessage" Role="RoomMessage" />
+          <AssociationSet Name="FK_RoomAspNetUser_Room" Association="Self.FK_RoomAspNetUser_Room">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="RoomAspNetUser" EntitySet="RoomAspNetUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomMessage" Association="Self.FK_RoomMessage">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Yerpe_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Yerpe_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Yerpe_dbModel.AspNetUser" />
+          <EntitySet Name="Messages" EntityType="Yerpe_dbModel.Message" />
+          <EntitySet Name="Rooms" EntityType="Yerpe_dbModel.Room" />
+          <AssociationSet Name="FK_Messages_AspNetUsers" Association="Yerpe_dbModel.FK_Messages_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomMessage" Association="Yerpe_dbModel.FK_RoomMessage">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="RoomAspNetUser" Association="Yerpe_dbModel.RoomAspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Email" MaxLength="256" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="EmailConfirmed" Nullable="false" Type="Boolean" />
-          <Property Name="PasswordHash" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="SecurityStamp" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumberConfirmed" Nullable="false" Type="Boolean" />
-          <Property Name="TwoFactorEnabled" Nullable="false" Type="Boolean" />
-          <Property Name="LockoutEndDateUtc" Precision="3" Type="DateTime" />
-          <Property Name="LockoutEnabled" Nullable="false" Type="Boolean" />
-          <Property Name="AccessFailedCount" Nullable="false" Type="Int32" />
-          <Property Name="UserName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Messages" Relationship="Self.FK_Messages_AspNetUsers" FromRole="AspNetUsers" ToRole="Messages" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Messages" Relationship="Yerpe_dbModel.FK_Messages_AspNetUsers" FromRole="AspNetUser" ToRole="Message" />
+          <NavigationProperty Name="Rooms" Relationship="Yerpe_dbModel.RoomAspNetUser" FromRole="AspNetUser" ToRole="Room" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="RoomId" Nullable="false" Type="Int32" />
-          <Property Name="DateCreated" Nullable="false" Precision="3" Type="DateTime" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Messages_AspNetUsers" FromRole="Messages" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Rooms" Relationship="Self.RoomMessage" FromRole="Messages" ToRole="Rooms" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Room_Id" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Yerpe_dbModel.FK_Messages_AspNetUsers" FromRole="Message" ToRole="AspNetUser" />
+          <NavigationProperty Name="Room" Relationship="Yerpe_dbModel.FK_RoomMessage" FromRole="Message" ToRole="Room" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Messages" Relationship="Self.RoomMessage" FromRole="Rooms" ToRole="Messages" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Messages" Relationship="Yerpe_dbModel.FK_RoomMessage" FromRole="Room" ToRole="Message" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Yerpe_dbModel.RoomAspNetUser" FromRole="Room" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_Messages_AspNetUsers">
-          <End Type="Self.AspNetUser" Multiplicity="1" Role="AspNetUsers" />
-          <End Type="Self.Message" Multiplicity="*" Role="Messages" />
+          <End Type="Yerpe_dbModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Yerpe_dbModel.Message" Role="Message" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Messages">
+            <Dependent Role="Message">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="RoomMessage">
-          <End Type="Self.Message" Multiplicity="*" Role="Messages" />
-          <End Type="Self.Room" Multiplicity="*" Role="Rooms" />
+        <Association Name="FK_RoomMessage">
+          <End Type="Yerpe_dbModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="Yerpe_dbModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="Room_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Yerpe_dbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Messages" EntityType="Self.Message" />
-          <EntitySet Name="Rooms" EntityType="Self.Room" />
-          <AssociationSet Name="FK_Messages_AspNetUsers" Association="Self.FK_Messages_AspNetUsers">
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-            <End EntitySet="Messages" Role="Messages" />
-          </AssociationSet>
-          <AssociationSet Name="RoomMessage" Association="Self.RoomMessage">
-            <End EntitySet="Messages" Role="Messages" />
-            <End EntitySet="Rooms" Role="Rooms" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="RoomAspNetUser">
+          <End Type="Yerpe_dbModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="Yerpe_dbModel.Room" Role="Room" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -182,46 +215,46 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Yerpe_dbModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="Yerpe_dbModel.Message">
               <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Room_Id" ColumnName="Room_Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="Yerpe_dbModel.Room">
               <MappingFragment StoreEntitySet="Rooms">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="RoomMessage" TypeName="Yerpe_dbModel.RoomMessage" StoreEntitySet="RoomMessage">
-            <EndProperty Name="Messages">
-              <ScalarProperty Name="Id" ColumnName="Messages_Id" />
-            </EndProperty>
-            <EndProperty Name="Rooms">
+          <AssociationSetMapping Name="RoomAspNetUser" TypeName="Yerpe_dbModel.RoomAspNetUser" StoreEntitySet="RoomAspNetUser">
+            <EndProperty Name="Room">
               <ScalarProperty Name="Id" ColumnName="Room_Id" />
+            </EndProperty>
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

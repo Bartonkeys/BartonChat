@@ -14,18 +14,13 @@ namespace Yerpe.Data
     
     public partial class Message
     {
-        public Message()
-        {
-            this.Rooms = new HashSet<Room>();
-        }
-    
         public int Id { get; set; }
         public string UserId { get; set; }
         public string Text { get; set; }
-        public int RoomId { get; set; }
+        public int Room_Id { get; set; }
         public System.DateTime DateCreated { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

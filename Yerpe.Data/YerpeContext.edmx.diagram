@@ -4,12 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9b745c56560740e6a3cbbd8749312c42" Name="Diagram1">
-        <EntityTypeShape EntityType="Yerpe_dbModel.AspNetUser" PointX="0.75" PointY="1" Width="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Yerpe_dbModel.Message" PointX="3" PointY="1.625" Width="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Yerpe_dbModel.Room" PointX="5.25" PointY="2" Width="1.5" IsExpanded="true" />
-        <AssociationConnector ManuallyRouted="false" Association="Yerpe_dbModel.FK_Messages_AspNetUsers" />
-        <AssociationConnector ManuallyRouted="false" Association="Yerpe_dbModel.RoomMessage" />
+      <Diagram DiagramId="35137925c6134f95ba1b8f717f187cc5" Name="Diagram1">
+        <EntityTypeShape EntityType="Yerpe_dbModel.AspNetUser" Width="1.5" PointX="0.875" PointY="0.5" />
+        <EntityTypeShape EntityType="Yerpe_dbModel.Message" Width="1.5" PointX="3.5" PointY="2.875" />
+        <EntityTypeShape EntityType="Yerpe_dbModel.Room" Width="1.5" PointX="3.5" PointY="0.5" />
+        <AssociationConnector Association="Yerpe_dbModel.FK_Messages_AspNetUsers" />
+        <AssociationConnector Association="Yerpe_dbModel.FK_RoomMessage" />
+        <AssociationConnector Association="Yerpe_dbModel.RoomAspNetUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

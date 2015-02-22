@@ -17,6 +17,7 @@ namespace Yerpe.Data
         public AspNetUser()
         {
             this.Messages = new HashSet<Message>();
+            this.Rooms = new HashSet<Room>();
         }
     
         public string Id { get; set; }
@@ -33,5 +34,6 @@ namespace Yerpe.Data
         public string UserName { get; set; }
     
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

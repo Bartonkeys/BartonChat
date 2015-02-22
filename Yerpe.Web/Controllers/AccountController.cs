@@ -13,7 +13,7 @@ using Yerpe.Web.Models;
 namespace Yerpe.Web.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -155,6 +155,7 @@ namespace Yerpe.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    YerpeContext.AspNetUsers.Single(x => x.UserName == user.UserName).Rooms.Add(YerpeContext.Rooms.Single(r => r.Name == "Yerma"));
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
