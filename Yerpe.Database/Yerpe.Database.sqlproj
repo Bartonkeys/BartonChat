@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{612da3f8-b6eb-4cd6-af27-8df71b632fb7}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -72,7 +72,5 @@
     <Build Include="dbo\Tables\Rooms.sql" />
     <Build Include="dbo\Tables\RoomAspNetUser.sql" />
     <Build Include="dbo\Tables\Messages.sql" />
-    <Build Include="Security\yerpe.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
   </ItemGroup>
 </Project>

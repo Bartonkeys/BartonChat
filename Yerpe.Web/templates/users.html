@@ -1,0 +1,15 @@
+﻿<div class="row" ng-init="init()">
+    <input type="text" ng-model="user.userName" />
+    <input type="password" ng-model="user.password" />
+    <select ng-model="user.roomId">
+        <option ng-repeat="r in data.rooms" value="{{r.Id}}">{{r.Name}}</option>
+    </select>
+    <input type="submit" class="btn btn-primary" value="Create" ng-click="createUser()" />
+
+    <div class="col-md-10">
+        <ul>
+            <li ng-repeat="r in data.users">{{r.UserName}}</li>
+        </ul>
+
+    </div>
+</div>

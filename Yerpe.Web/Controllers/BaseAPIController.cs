@@ -10,5 +10,6 @@ namespace Yerpe.Web.Controllers
     public class BaseApiController: ApiController
     {
         protected Yerpe_dbEntities YerpeContext = new Yerpe_dbEntities();
+
     }
 }

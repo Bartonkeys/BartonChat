@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Yerpe.Web.Models;
+using System.Net.Mail;
 
 namespace Yerpe.Web.Controllers
 {
@@ -136,7 +137,7 @@ namespace Yerpe.Web.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles="Admin")]
         public ActionResult Register()
         {
             return View();
@@ -145,7 +146,7 @@ namespace Yerpe.Web.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -153,9 +154,20 @@ namespace Yerpe.Web.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     YerpeContext.AspNetUsers.Single(x => x.UserName == user.UserName).Rooms.Add(YerpeContext.Rooms.Single(r => r.Name == "Yerma"));
+
+                    var message = new MailMessage();
+                    message.Body = String.Format(
+                        "the legend that is Graham McVea has signed you up for Yerpe \n\n Your username is {0} \n\n \n\n Your password is {1} \n\n <a href='http://www.yerpe.com'>Click Here</a>", 
+                        model.Email, model.Password);
+
+                    var client = new SmtpClient();
+                    client.EnableSsl = true;
+                    client.Send(message);
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -389,7 +401,6 @@ namespace Yerpe.Web.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();

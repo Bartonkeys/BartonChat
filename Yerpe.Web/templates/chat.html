@@ -1,48 +1,109 @@
-﻿<div class="container" style="margin-top: 60px">
-    <div class="row" data-ng-show="isBusy">
+﻿
+    <div class="row" data-ng-show="!data.isReady()">
         <div class="col-lg-offset-5">
             <h3>Loading messages...</h3>
         </div>
     </div>
-    <input type="hidden" id="displayName" ng-value="myName" />
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
+        <div class="col-md-10">
+            <div id="chatPanel" class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-comment"></span> Chat
-                </div>
-                <div class="panel-footer">
-                    <div class="input-group">
-                        <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-warning btn-sm" id="sendmessage">
-                                Send
-                            </button>
-                        </span>
+                    <span class="glyphicon glyphicon-comment"></span> Yerpe Chat for {{data.getName()}}
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li>
+                                <a href="#" ng-click="getMoreMessages()" >
+                                    <span class=" glyphicon glyphicon-refresh">
+                                    </span>Get Earlier Messages
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.jquery2dotnet.com">
+                                    <span class="glyphicon glyphicon-ok-sign">
+                                    </span>Available
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.jquery2dotnet.com">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>Busy
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.jquery2dotnet.com">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    Away
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" ng-click="logOff()">
+                                    <span class="glyphicon glyphicon-off"></span>
+                                    Log off
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <ul class="chat" id="discussion">
-                        <li class="left clearfix" ng-repeat="m in data.messages">
-                            <span class="chat-img pull-left">
+                    <ul class="chat" id="discussion">                   
+                        <li class="left clearfix" ng-repeat="m in data.messages" ng-class="{'focus' : $last }">
+                            <a id="message-{{$index}}"></a>
+                            <span class=" chat-img pull-left">
                                 <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">{{m.From}}</strong> <small class="pull-right text-muted">
-                                                                                         <span class="glyphicon glyphicon-time"></span>{{m.SentDate}}
-                                                                                     </small>
+                                    <strong class="primary-font">{{m.From}}</strong>
+                                    <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{m.SentDate}}
+                                    </small>
                                 </div>
                                 <p>
                                     {{m.Message}}
                                 </p>
-                            </div>
+                            </div>                           
                         </li>
                     </ul>
+                </div><div class="panel-footer">
+                <div class="input-group">
+                    <input id="message" type="text" class="form-control input-sm"
+                           placeholder="Type your message here and hit enter or send..."
+                           ng-model="message"
+                           ng-keyup="$event.keyCode == 13 ? send() : null"
+                           auto-focus />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-warning btn-sm" id="sendmessage" ng-click="send()">
+                            Send
+                        </button>
+                    </span>
                 </div>
-             
+            </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-user"></span> Users
+                </div>
+                <div class="panel-footer">
+                    <p ng-repeat="u in data.usersInRoom">{{u}}</p>
+                </div>
+            </div>
+            <div class="panel panel-primary" ng-show="data.getIsAdmin()" >
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Admin
+                </div>
+                <div class="panel-body" style="max-height: 379px">
+                    <ul>
+                        <li><a ng-href="/rooms">Rooms</a></li>
+                        <li><a ng-href="/users">Users</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 

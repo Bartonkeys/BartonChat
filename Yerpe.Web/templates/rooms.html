@@ -1,0 +1,10 @@
+﻿<div class="row" ng-init="init()">
+    <input type="text" ng-model="room.name"/>
+    <input type="submit" class="btn btn-primary" value="Create" ng-click="createRoom()" />
+    <div class="col-md-10">
+        <ul>
+            <li ng-repeat="r in data.rooms">{{r.Name}}</li>
+        </ul>
+
+    </div>
+</div>

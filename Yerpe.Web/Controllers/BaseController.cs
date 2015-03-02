@@ -10,5 +10,11 @@ namespace Yerpe.Web.Controllers
     public class BaseController : Controller
     {
         protected Yerpe_dbEntities YerpeContext = new Yerpe_dbEntities();
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
+            YerpeContext.SaveChanges();
+        }
     }
 }
