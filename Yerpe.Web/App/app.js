@@ -38,6 +38,7 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
     var _myName = "";
     var _isAdmin = false;
     var _receivedMessage = false;
+    var _roomId = 0;
 
     var _isReady = function() {
         return _isInit;
@@ -55,6 +56,10 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         return _isAdmin;
     };
 
+    var _getRoomId = function () {
+        return _roomId;
+    };
+
     var _getMessages = function () {
 
         var deferred = $q.defer();
@@ -68,6 +73,7 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
               _isAdmin = result.data.IsAdmin;
               _skip += 10;
               _isInit = true;
+              _roomId = result.data.Room.Id
               deferred.resolve();
           },
           function () {
@@ -181,7 +187,8 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
         createRoom: _createRoom,
         getUsers: _getUsers,
         users: _users,
-        createUser: _createUser
+        createUser: _createUser,
+        getRoomId: _getRoomId
     };
 }]);
 
@@ -193,13 +200,13 @@ yerpeModule.factory('yerpeHub', ['$rootScope', 'Hub', 'dataService', '$q', funct
         //client side methods
         listeners:{
             'addNewMessageToPage': function (message) {
-                dataService.receivedMessage = true;
-                dataService.messages.push(message);
-                var fullName = dataService.getName();
-                if (message.From != fullName.substr(0, fullName.indexOf('@'))) {
-                    dataService.unRead += 1;
-                }
-                $rootScope.$apply();
+                    dataService.receivedMessage = true;
+                    dataService.messages.push(message);
+                    var fullName = dataService.getName();
+                    if (message.From != fullName.substr(0, fullName.indexOf('@'))) {
+                        dataService.unRead += 1;
+                    }
+                    $rootScope.$apply();
             }
         },
 

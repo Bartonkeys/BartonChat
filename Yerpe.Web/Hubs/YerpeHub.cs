@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using Yerpe.Data;
 using Yerpe.Web.Models;
+using Yerpe.Web.Extensions;
 
 namespace Yerpe.Web.Hubs
 {
@@ -12,24 +13,39 @@ namespace Yerpe.Web.Hubs
     {
         private readonly Yerpe_dbEntities _yerpeContext = new Yerpe_dbEntities();
 
+        public override System.Threading.Tasks.Task OnConnected()
+        {
+            var roomEntity = GetARoom();
+            Groups.Add(Context.ConnectionId, roomEntity.Name);
+            return base.OnConnected();
+        }
+
+        private Room GetARoom()
+        {
+            return _yerpeContext
+                .AspNetUsers
+                .Single(u => u.UserName == Context.User.Identity.Name)
+                .Rooms.First();
+        }
+
         public void Send(string name, string message)
         {
             var newMessage = new Message
             {
                 AspNetUser = _yerpeContext.AspNetUsers.Single(u => u.UserName == name),
                 DateCreated = DateTime.Now,
-                Room = _yerpeContext.AspNetUsers.Single(u => u.UserName == name).Rooms.First(),
+                Room = GetARoom(),
                 Text = message
             };
 
             _yerpeContext.Messages.Add(newMessage);
             _yerpeContext.SaveChanges();
 
-            Clients.All.addNewMessageToPage(new MessageViewModel 
-            { 
-                From = newMessage.AspNetUser.UserName.Split('@')[0],
+            Clients.Group(newMessage.Room.Name).addNewMessageToPage(new MessageViewModel 
+            {
+                From = newMessage.AspNetUser.UserName.GetNameFromEmail(),
                 Message = message, 
-                SentDate = "Just now" 
+                SentDate = DateTime.Now.ToShortTimeString()
             });
         }
     }
