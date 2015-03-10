@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico">
-    <title>({{data.unRead}})</title>
+    <title></title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -13,7 +13,8 @@
     <div class="container body-content">
         @RenderBody()
     </div>
-    @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/jquery.titlealert.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-route.min.js"></script>
     <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>

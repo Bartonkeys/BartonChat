@@ -54,7 +54,7 @@
                 <div class="input-group">
                     <input id="message" type="text" class="form-control input-sm"
                            placeholder="Type your message here and hit enter or send..."
-                           ng-model="message"
+                           ng-model="data.message"
                            ng-keyup="$event.keyCode == 13 ? send() : null"
                            auto-focus />
                     <span class="input-group-btn">
