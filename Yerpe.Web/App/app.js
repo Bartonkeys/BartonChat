@@ -39,6 +39,7 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
     var _isAdmin = false;
     var _receivedMessage = false;
     var _roomId = 0;
+    var _message = "";
 
     var _isReady = function() {
         return _isInit;
@@ -173,6 +174,7 @@ yerpeModule.factory("dataService", ["$http", "$q", function ($http, $q) {
     };
     return {
         messages: _messages,
+        message: _message,
         rooms: _rooms,
         usersInRoom: _usersInRoom,
         getMessages: _getMessages,
@@ -205,6 +207,7 @@ yerpeModule.factory('yerpeHub', ['$rootScope', 'Hub', 'dataService', '$q', funct
                     var fullName = dataService.getName();
                     if (message.From != fullName.substr(0, fullName.indexOf('@'))) {
                         dataService.unRead += 1;
+                        $.titleAlert("(" + dataService.unRead + ")");
                     }
                     $rootScope.$apply();
             }
@@ -252,7 +255,6 @@ yerpeModule.directive('autoFocus', function ($timeout) {
 
 yerpeModule.controller("yerpeController", function ($scope, $http, dataService, yerpeHub, $location, $anchorScroll, $window) {
     $scope.data = dataService;
-    $scope.message = "";
 
     if (!dataService.isReady()) {
         dataService.getMessages()
@@ -265,9 +267,9 @@ yerpeModule.controller("yerpeController", function ($scope, $http, dataService, 
     }
 
     $scope.send = function () {
-        yerpeHub.sendMessage(dataService.getName(), $scope.message)
+        yerpeHub.sendMessage(dataService.getName(), $scope.data.message)
             .then(function () {
-                $scope.message = "";
+                $scope.data.message = "";
                 scrollToMessage();
             });    
     };
