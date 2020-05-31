@@ -1,3 +1,3 @@
 # BartonChat
 
-Chat application leveraging Angular js and SignalR
+Chat application leveraging AngularJS and SignalR
